@@ -4,6 +4,8 @@ import { Header } from './components/Header/index'
 import { Dashboard } from './components/Dashboard';
 import Modal from 'react-modal'
 import { useState } from 'react';
+import { NewTransactionModal } from './components/NewTransactionModal';
+import { TransactionsContext, TransactionsProvider } from './TransactionsContext';
 
 const Title = styled.h1`
 color: #8257e6;
@@ -16,27 +18,31 @@ Modal.setAppElement('#root')
 export function App() {
 
   const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] = useState(false)
-    
+
 
   function handleOpenNewTransactionModal() {
-      setIsNewTransactionModalOpen(true)
+    setIsNewTransactionModalOpen(true)
   }
-  
-  function handleCloseNewTransactionModal() {
-      setIsNewTransactionModalOpen(false)
 
-  return ( 
-    <>
+  function handleCloseNewTransactionModal() {
+    setIsNewTransactionModalOpen(false)
+
+  }
+
+  return (
+    <TransactionsProvider>
+
       <Header onOpenNewTransactionModal={handleOpenNewTransactionModal} />
-      <Dashboard />
-      <Modal 
-      isOpen={isNewTransactionModalOpen} 
-      onRequestClose={handleCloseNewTransactionModal}>
-                    <h2>Nova Transação</h2>
-                </Modal>
+      <Dashboard /> 
+      <NewTransactionModal
+        isOpen={isNewTransactionModalOpen}
+        onRequestClose={handleCloseNewTransactionModal}
+        />
       <GlobalStyle />
-    </>
+ 
+    </TransactionsProvider>
   )
 }
+
+
  
-}
